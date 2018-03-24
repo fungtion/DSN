@@ -4,8 +4,6 @@ import torch.backends.cudnn as cudnn
 import torch.optim as optim
 import torch.utils.data
 import numpy as np
-import torchvision.utils as vutils
-import torch.nn as nn
 from torch.autograd import Variable
 from torchvision import datasets
 from torchvision import transforms
@@ -82,15 +80,7 @@ dataloader_target = torch.utils.data.DataLoader(
 #  load model       #
 #####################
 
-
-# def weights_init(m):
-#     if isinstance(m, nn.Conv2d):
-#         nn.init.xavier_uniform(m.weight.data, gain=1)
-#         nn.init.constant(m.bias.data, 0.1)
-
-
 my_net = DSN()
-# my_net.apply(weights_init)
 
 #####################
 # setup optimizer   #
@@ -115,7 +105,7 @@ optimizer = optim.SGD(my_net.parameters(), lr=lr, momentum=momentum, weight_deca
 
 loss_classification = torch.nn.CrossEntropyLoss()
 loss_recon1 = MSE()
-loss_recon2 = nn.MSELoss()
+loss_recon2 = SIMSE()
 loss_diff = DiffLoss()
 loss_similarity = torch.nn.CrossEntropyLoss()
 
@@ -147,9 +137,6 @@ for epoch in xrange(n_epoch):
     i = 0
 
     while i < len_dataloader:
-
-
-
 
         ###################################
         # target data training            #
@@ -199,7 +186,7 @@ for epoch in xrange(n_epoch):
         target_mse = alpha_weight * loss_recon1(target_rec_code, target_inputv_img)
         loss += target_mse
         target_simse = alpha_weight * loss_recon2(target_rec_code, target_inputv_img)
-        # loss += target_simse
+        loss += target_simse
 
         loss.backward()
         optimizer.step()
@@ -255,7 +242,7 @@ for epoch in xrange(n_epoch):
         source_mse = alpha_weight * loss_recon1(source_rec_code, source_inputv_img)
         loss += source_mse
         source_simse = alpha_weight * loss_recon2(source_rec_code, source_inputv_img)
-        # loss += source_simse
+        loss += source_simse
 
         loss.backward()
         optimizer = exp_lr_scheduler(optimizer=optimizer, step=current_step)
