@@ -13,7 +13,7 @@ original paper, so be careful when you tune parameters for other datasets. Moreo
 for real nature image, cause the private and shared feature of nature image are more complicated, so that *difference 
 loss* cannot adapt well** 
 
-## result
+## Result
 
 We only conduct the experiments from mnist to mnist_m, the target accuracy of our implementation is about 77% (original
 paper ~83%), and some results are shown as follows, from left to right: recovery from shared+private, shared and private
