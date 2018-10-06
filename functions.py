@@ -60,7 +60,7 @@ class DiffLoss(nn.Module):
         input2_l2_norm = torch.norm(input2, p=2, dim=1, keepdim=True).detach()
         input2_l2 = input2.div(input2_l2_norm.expand_as(input2) + 1e-6)
 
-        diff_loss = torch.mean((input1_l2.mm(input2_l2.t()).pow(2)))
+        diff_loss = torch.mean((input1_l2.t().mm(input2_l2)).pow(2))
 
         return diff_loss
 
