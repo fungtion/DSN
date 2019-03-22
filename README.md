@@ -1,5 +1,9 @@
 ## This is a pytorch implementation of the model [Domain Separation Networks](https://arxiv.org/abs/1608.06019)
 
+## Environment
+- Pytorch 0.4.0
+- Python 2.7
+
 ## Network Structure
 
 ![model](./extra/model.jpg)
